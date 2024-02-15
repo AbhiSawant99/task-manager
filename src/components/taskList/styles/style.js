@@ -1,7 +1,7 @@
 const Style = () => {
     return {
         TaskContainer: {
-            padding: '3rem',
+            padding: '2rem',
         },
     }
 }
