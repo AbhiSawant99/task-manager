@@ -20,10 +20,14 @@ const Style = () => {
 
     return {
         task: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             width: '100%',
             borderRadius: '0.5rem',
             boxShadow: '0',
             backgroundColor: '#f1f1f1',
+            padding: '0rem 0.5rem',
             '&:hover': {
                 cursor: 'pointer',
                 boxShadow: '3',

@@ -1,3 +1,7 @@
 .ChartBox {
     background-color: #efefef;
+    min-height: 8rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }

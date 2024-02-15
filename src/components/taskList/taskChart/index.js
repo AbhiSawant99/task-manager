@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { AppContext } from "../../contextProvider";
 import Chart from 'react-apexcharts';
 
@@ -22,17 +22,22 @@ const TaskChart = () => {
     }
 
     return (
-        <Box className="ChartBox">
-            <Chart
-                type="donut"
-                width="100%"
-                height="100%"
-                series={chartData()}
-                options={{
-                    labels: ['Added', 'Completed', 'Started']
-                }}
-            />
-        </Box>
+        <Stack className="ChartBox">
+
+            {allTask && allTask.length > 0 ?
+                <Chart
+                    type="donut"
+                    width="100%"
+                    height="100%"
+                    series={chartData()}
+                    options={{
+                        labels: ['Added', 'Completed', 'Started']
+                    }}
+                />
+                :
+                <Typography>Add Task To Show Graph Data</Typography>
+            }
+        </Stack>
     )
 }
 
