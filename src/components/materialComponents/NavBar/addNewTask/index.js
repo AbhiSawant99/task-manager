@@ -1,25 +1,41 @@
-import { Button, Stack, TextField } from "@mui/material";
-import { Fragment, useState } from "react";
-import { AppContext } from "../../../ContextProvider";
+import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { AppContext } from "../../../contextProvider";
 
 const AddNewTask = ({ ...props }) => {
     const [newTaskDetails, setNewTaskDetails] = useState({});
+    const [selectedPriority, setSelectedPriority] = useState(null);
     const { allTask, setAllTask } = AppContext();
-    const [date, setDate] = useState(new Date());
+
+    const priorityTypes = [
+        {
+            id: 'low',
+            label: 'Low',
+            color: 'primary'
+        },
+        {
+            id: 'midium',
+            label: 'Medium',
+            color: 'warning'
+        },
+        {
+            id: 'High',
+            label: 'High',
+            color: 'error'
+        },
+
+    ]
 
     const handleInputChange = (event) => {
         event.persist();
         setNewTaskDetails(task => ({ ...task, [event.target.name]: event.target.value }))
     }
 
-    const handleDayChange = (dayPickerInput) => {
-        setDate(dayPickerInput);
-    };
-
     const handleConfirm = () => {
         let allTasks = allTask?.length > 0 ? allTask : [];
 
         newTaskDetails["category"] = "Added";
+        newTaskDetails["priority"] = selectedPriority;
         newTaskDetails["id"] = allTasks.length + 1;
 
         allTasks.push(newTaskDetails);
@@ -32,7 +48,7 @@ const AddNewTask = ({ ...props }) => {
     }
 
     const disableButton = () => {
-        return !(newTaskDetails && newTaskDetails.name && date && newTaskDetails.priority);
+        return !(newTaskDetails && newTaskDetails.name && selectedPriority?.id);
     }
 
     return (
@@ -43,12 +59,19 @@ const AddNewTask = ({ ...props }) => {
                 label="Task Name"
                 name="name"
             />
-            <TextField
-                onChange={handleInputChange}
-                id="task-name"
-                label="Priority"
-                name="priority"
-            />
+            <Box>
+                <Typography>Select Priority</Typography>
+                <Stack sx={{ flexDirection: 'row', gap: '0.5rem', marginTop: '0.25rem' }}>
+                    {priorityTypes.map((priority, index) => (
+                        <Chip label={priority.label}
+                            color={priority.color}
+                            variant={selectedPriority?.id === priority?.id ? "filled" : "outlined"}
+                            key={priority.id}
+                            onClick={() => setSelectedPriority(priority)}
+                        />
+                    ))}
+                </Stack>
+            </Box>
             <Button
                 variant="contained"
                 color="success"

@@ -1,9 +1,8 @@
-import './App.css';
 import { Fragment } from 'react';
 
 import NavBar from './components/materialComponents/NavBar';
 import TaskList from './components/taskList';
-import { ContextProvider } from './components/ContextProvider';
+import { ContextProvider } from './components/contextProvider';
 
 function App() {
   return (

@@ -1,10 +1,16 @@
 import { Fragment, useEffect, useState } from "react"
 import TaskBlock from "../../materialComponents/TaskBlock";
-import { AppContext } from "../../ContextProvider";
+import { AppContext } from "../../contextProvider";
+import { useDrop } from "react-dnd";
 
 const StartedTask = (props) => {
     const { allTask, setAllTask } = AppContext();
     const [startedTaskList, setStartedTaskList] = useState([]);
+    const [{ isOver: taskInStarted }, startedTaskRef] = useDrop({
+        accept: "task",
+        drop: (item) => addStartTask(item),
+        collect: (monitor) => ({ isOver: !!monitor.isOver() }),
+    });
 
     useEffect(() => {
         if (allTask && allTask.length > 0) {
@@ -12,12 +18,12 @@ const StartedTask = (props) => {
         }
     }, [allTask])
 
-    const handleClick = (id) => {
+    const addStartTask = (item) => {
         let allTasks = allTask?.length > 0 ? allTask : [];
 
-        const taskIndex = allTasks.findIndex(task => task.id === id)
+        const taskIndex = allTasks.findIndex(task => task.id === item.id);
         let task = allTasks[taskIndex];
-        task["category"] = "Completed";
+        task["category"] = "Started";
 
         allTasks[taskIndex] = task;
 
@@ -32,7 +38,8 @@ const StartedTask = (props) => {
                 id={'startedTask'}
                 backgroundColor="warning"
                 taskList={startedTaskList}
-                onClick={(id) => handleClick(id)}
+                taskBlockRef={startedTaskRef}
+                isOver={taskInStarted}
             />
         </Fragment>
     )

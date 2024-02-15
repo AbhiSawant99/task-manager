@@ -1,7 +1,6 @@
-import { Fragment, forwardRef, useRef } from "react"
-import { Box, Divider, List, ListItem, Paper, Stack, Typography, styled } from "@mui/material";
-import Style from './style.js'
-
+import { Box, List, Paper, Stack, Typography, styled } from "@mui/material";
+import Style from './styles/style.js'
+import TaskItem from "../TaskItem/index.js";
 
 const TaskTypeHeader = styled(Typography)(({ theme, backgroundColor }) => ({
     fontSize: '1.5rem',
@@ -11,38 +10,26 @@ const TaskTypeHeader = styled(Typography)(({ theme, backgroundColor }) => ({
     borderRadius: '0.25rem 0.25rem 0 0',
 }));
 
-const Task = styled(Paper)(({ theme }) => ({
-
-}))
-
 const TaskBlock = ({ ...props }) => {
     const style = Style();
 
-    const onDragEnd = (result) => {
-        console.log(result);
-    }
-
     return (
-        <Paper>
+        <Paper ref={props.taskBlockRef} key={props.id}>
             <Stack>
                 <TaskTypeHeader backgroundColor={props.backgroundColor}>{props.taskName}</TaskTypeHeader>
-                <Stack alignItems="center">
+                <List sx={{ ...style.listColor(props.isOver) }}>
                     {props.taskList && props.taskList.length > 0 ?
                         props.taskList.map((task, index) => (
-                            <Paper
-                                sx={{ ...style.task }}
-                                onClick={() => props.onClick(task.id)}
+                            <TaskItem
                                 key={task.id}
-                            >
-                                <Typography sx={{ ...style.taskHeader(props.backgroundColor) }}>{task.name}</Typography>
-                                <Stack sx={{ ...style.taskDetails }}>
-                                    <Typography variant="caption">Priority: {task.priority}</Typography>
-                                </Stack>
-                            </Paper>
+                                task={task}
+                                index={index}
+                                titleColor={props.backgroundColor}
+                            />
                         )) : <Box sx={{ ...style.exptyList }}>
                             <Typography>No Task To Show</Typography>
                         </Box>}
-                </Stack>
+                </List>
             </Stack>
         </Paper>
     )

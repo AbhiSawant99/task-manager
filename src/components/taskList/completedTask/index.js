@@ -1,10 +1,16 @@
 import { Fragment, useEffect, useState } from "react"
 import TaskBlock from "../../materialComponents/TaskBlock";
-import { AppContext } from "../../ContextProvider";
+import { AppContext } from "../../contextProvider";
+import { useDrop } from "react-dnd";
 
 const CompletedTask = (props) => {
     const { allTask, setAllTask } = AppContext();
     const [completedTaskList, setCompletedTaskList] = useState([]);
+    const [{ isOver: taskInCompleted }, completedTaskRef] = useDrop({
+        accept: "task",
+        drop: (item) => completeTask(item),
+        collect: (monitor) => ({ isOver: !!monitor.isOver() }),
+    });
 
     useEffect(() => {
         if (allTask && allTask.length > 0) {
@@ -12,22 +18,17 @@ const CompletedTask = (props) => {
         }
     }, [allTask]);
 
-    const handleClick = (id) => {
+    const completeTask = (item) => {
         let allTasks = allTask?.length > 0 ? allTask : [];
 
-        const taskIndex = allTasks.findIndex(task => task.id === id)
+        const taskIndex = allTasks.findIndex(task => task.id === item.id)
         let task = allTasks[taskIndex];
-        task["category"] = "Deleted";
+        task["category"] = "Completed";
 
         allTasks[taskIndex] = task;
 
         setAllTask([...allTasks]);
-
-        setTimeout(() => {
-            allTasks.splice(taskIndex, 1);
-            setAllTask([...allTasks]);
-            localStorage.setItem('allTask', JSON.stringify(allTasks));
-        }, 250);
+        localStorage.setItem('allTask', JSON.stringify(allTasks));
     }
 
 
@@ -38,7 +39,8 @@ const CompletedTask = (props) => {
                 id={'completedTask'}
                 backgroundColor="success"
                 taskList={completedTaskList}
-                onClick={(id) => handleClick(id)}
+                taskBlockRef={completedTaskRef}
+                isOver={taskInCompleted}
             />
         </Fragment>
     )

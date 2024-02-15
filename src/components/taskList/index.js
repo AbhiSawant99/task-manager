@@ -1,22 +1,23 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import StartedTask from "./startedTask";
-import { Box, Grid, Paper, Stack, Typography, styled } from "@mui/material";
+import { Grid } from "@mui/material";
 import AddedTask from "./addedTask";
 import CompletedTask from "./completedTask";
-import { AppContext } from "../ContextProvider";
+import Style from "./styles/style"
 
 const TaskList = (props) => {
+    const style = Style();
 
     return (
         <Fragment>
-            <Grid container spacing={2} columns={3} sx={{ padding: '0.5rem' }}>
-                <Grid item xs={1}>
+            <Grid container spacing={2} columns={3} sx={{ ...style.TaskContainer }}>
+                <Grid item xs={3} sm={1}>
                     <AddedTask />
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={3} sm={1}>
                     <StartedTask />
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={3} sm={1}>
                     <CompletedTask />
                 </Grid>
             </Grid>
