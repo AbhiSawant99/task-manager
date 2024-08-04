@@ -1,7 +1,7 @@
 import { Box, Chip, ListItem, Paper, Stack, Typography } from "@mui/material";
 import Style from "./styles/style";
 import { useDrag } from "react-dnd";
-import { AppContext } from "../../contextProvider";
+import { AppContext } from "../../ContextProvider";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import IconButton from '@mui/material/IconButton';
 

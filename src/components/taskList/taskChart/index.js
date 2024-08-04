@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import { AppContext } from "../../contextProvider";
+import { AppContext } from "../../ContextProvider";
 import Chart from 'react-apexcharts';
 
 import './styles/style.css'

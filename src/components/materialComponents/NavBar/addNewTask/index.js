@@ -1,6 +1,6 @@
 import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { AppContext } from "../../../contextProvider";
+import { AppContext } from "../../../ContextProvider";
 
 const AddNewTask = ({ ...props }) => {
     const [newTaskDetails, setNewTaskDetails] = useState({});
